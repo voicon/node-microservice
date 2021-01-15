@@ -11,25 +11,17 @@ steps:
 #     template: >
 #         Build {{build.number}} of {{build.branch}} started. {{build.link}}
 - name: build
-  image: node
+  image: alpine
   commands:
-  - sh ./.drone/build.sh
+  - echo "hello always"
 - name: publish
-  image: plugins/docker
-  settings:
-    repo: nazmulb/node-microservice
-    auto_tag: true
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
+  image: alpine
+  commands:
+    - echo "echo publish"
 - name: deploy
   image: docker
   commands:
-  - sh ./.drone/deploy.sh
-  volumes:
-  - name: docker
-    path: /var/run/docker.sock
+  - echo "echo deploy"
 # - name: end-notify
 #   image: plugins/slack
 #   settings:
@@ -41,7 +33,7 @@ steps:
 #       {{else}}
 #         Build {{build.number}} of {{build.branch}} failed. Please fix!. {{build.link}}
 #       {{/success}}
-volumes:
-- name: docker
-  host:
-    path: /var/run/docker.sock      
+# volumes:
+# - name: docker
+#   host:
+#     path: /var/run/docker.sock      
