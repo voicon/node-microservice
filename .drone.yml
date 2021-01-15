@@ -2,26 +2,26 @@ kind: pipeline
 name: default
 
 steps:
-- name: start-notify
-  image: plugins/slack
-  settings:
-    webhook: https://hooks.slack.com/services/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
-    channel: cicd
-    template: >
-        Build {{build.number}} of {{build.branch}} started. {{build.link}}
+# - name: start-notify
+#   image: plugins/slack
+#   settings:
+#     webhook: https://hooks.slack.com/services/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
+#     channel: cicd
+#     template: >
+#         Build {{build.number}} of {{build.branch}} started. {{build.link}}
 - name: build
   image: node:9.8.0
   commands:
   - sh ./.drone/build.sh
-- name: publish
-  image: plugins/docker
-  settings:
-    repo: voicon/node-microservice
-    auto_tag: true
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
+# - name: publish
+#   image: plugins/docker
+#   settings:
+#     repo: voicon/node-microservice
+#     auto_tag: true
+#     username:
+#       from_secret: docker_username
+#     password:
+#       from_secret: docker_password
 - name: deploy
   image: docker
   commands:
@@ -29,18 +29,18 @@ steps:
   volumes:
   - name: docker
     path: /var/run/docker.sock
-- name: end-notify
-  image: plugins/slack
-  settings:
-    webhook: https://hooks.slack.com/services/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
-    channel: cicd
-    template: >
-      {{#success build.status}}
-        Build {{build.number}} of {{build.branch}} successful. {{build.link}}
-      {{else}}
-        Build {{build.number}} of {{build.branch}} failed. Please fix!. {{build.link}}
-      {{/success}}
-volumes:
+# - name: end-notify
+#   image: plugins/slack
+#   settings:
+#     webhook: https://hooks.slack.com/services/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
+#     channel: cicd
+#     template: >
+#       {{#success build.status}}
+#         Build {{build.number}} of {{build.branch}} successful. {{build.link}}
+#       {{else}}
+#         Build {{build.number}} of {{build.branch}} failed. Please fix!. {{build.link}}
+#       {{/success}}
+# volumes:
 - name: docker
   host:
     path: /var/run/docker.sock      
