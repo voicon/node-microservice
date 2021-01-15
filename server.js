@@ -7,7 +7,7 @@ app.get('/', function (req, res) {
 
 var server = app.listen(3000, function () {
     var port = server.address().port;
-    console.log('Node App listening at port %s', port);
+    console.log('Node Server App listening at port %s', port);
 });
 
 module.exports = server;
